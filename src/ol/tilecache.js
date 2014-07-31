@@ -38,6 +38,16 @@ ol.TileCache.prototype.canExpireCache = function() {
 
 
 /**
+ * Removes all tiles from the cache, e.g. to invalidate tiles.
+ */
+ol.TileCache.prototype.clearCache = function() {
+  while(this.getCount() > 0) {
+    this.pop().dispose();
+  }
+}
+
+
+/**
  * @param {Object.<string, ol.TileRange>} usedTiles Used tiles.
  */
 ol.TileCache.prototype.expireCache = function(usedTiles) {

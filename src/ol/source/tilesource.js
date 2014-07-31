@@ -72,6 +72,13 @@ ol.source.Tile.prototype.canExpireCache = goog.functions.FALSE;
 
 
 /**
+ * Removes all tiles from the local tile store.
+ * @api
+ */
+ol.source.Tile.prototype.clearCache = goog.abstractMethod;
+
+
+/**
  * @param {Object.<string, ol.TileRange>} usedTiles Used tiles.
  */
 ol.source.Tile.prototype.expireCache = goog.abstractMethod;

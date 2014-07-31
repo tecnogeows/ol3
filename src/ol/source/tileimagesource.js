@@ -92,6 +92,15 @@ ol.source.TileImage.prototype.canExpireCache = function() {
 
 /**
  * @inheritDoc
+ * @api
+ */
+ol.source.TileImage.prototype.clearCache = function() {
+  return this.tileCache.clearCache();
+};
+
+
+/**
+ * @inheritDoc
  */
 ol.source.TileImage.prototype.expireCache = function(usedTiles) {
   this.tileCache.expireCache(usedTiles);
