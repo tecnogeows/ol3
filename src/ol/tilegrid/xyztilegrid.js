@@ -5,8 +5,8 @@ goog.require('ol');
 goog.require('ol.TileCoord');
 goog.require('ol.TileRange');
 goog.require('ol.proj');
-goog.require('ol.proj.EPSG3857');
 goog.require('ol.tilegrid.TileGrid');
+goog.require('ol.extent');
 
 
 
@@ -23,17 +23,31 @@ goog.require('ol.tilegrid.TileGrid');
 ol.tilegrid.XYZ = function(options) {
 
   var resolutions = new Array(options.maxZoom + 1);
+
+  var tileSize = goog.isDef(options.tileSize) ?
+    options.tileSize : ol.DEFAULT_TILE_SIZE;
+
+  var projection = goog.isDef(options.projection) ?
+      ol.proj.get(options.projection) : ol.proj.get('EPSG:3857');
+
+  var projectionExtent = projection.getExtent();
+
+  var width = ol.extent.getWidth(projectionExtent);
+
   var z;
-  var size = 2 * ol.proj.EPSG3857.HALF_SIZE / ol.DEFAULT_TILE_SIZE;
+  var size = width / tileSize;
   for (z = 0; z <= options.maxZoom; ++z) {
     resolutions[z] = size / Math.pow(2, z);
   }
 
+  var origin = goog.isDef(options.origin) ?
+    options.origin : ol.extent.getTopLeft(projectionExtent);
+
   goog.base(this, {
     minZoom: options.minZoom,
-    origin: [-ol.proj.EPSG3857.HALF_SIZE, ol.proj.EPSG3857.HALF_SIZE],
+    origin: origin,
     resolutions: resolutions,
-    tileSize: ol.DEFAULT_TILE_SIZE
+    tileSize: tileSize
   });
 
 };
